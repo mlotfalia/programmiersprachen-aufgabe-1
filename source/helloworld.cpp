@@ -25,9 +25,16 @@ bool pythagorean_1000()
     return false;
 }
 
+// 1.6.1) return true for Heads, false for Tails
+
+bool flip_a_coin()
+{
+    return std::rand() % 2 == 0; // true = Heads, false = Tails
+}
+
 int main()
 {
-
+    // 1.2) printing in cpp
     std::cout << "Hello World! I’m getting back into C++ after 12 years.\n";
     // 1.3) run your LCM code
     long long result = 1;
@@ -68,6 +75,26 @@ int main()
     for (auto x : arr)
         sum += x;
     std::cout << "\nAvg: " << double(sum) / arr.size() << "\n";
+
+    // 1.6) Coin Flip (flip_a_coin)
+
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+
+    std::cout << "How many flips? ";
+    int n;
+    std::cin >> n;
+
+    int heads = 0, tails = 0;
+    for (int i = 0; i < n; ++i)
+    {
+        if (flip_a_coin())
+            ++heads;
+        else
+            ++tails;
+    }
+
+    std::cout << "#Heads Flips: " << heads << "\n"
+              << "#Tails Flips: " << tails << "\n";
 
     return 0;
 }
