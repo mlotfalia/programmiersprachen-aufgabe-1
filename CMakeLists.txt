@@ -1,11 +1,12 @@
-cmake_minimum_required(VERSION 3.20)
-project(Aufgabenblatt1)
+cmake_minimum_required(VERSION 3.10)
+project(programmiersprachen_aufgabe_1)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Hello World program
+add_executable(helloworld
+  source/helloworld.cpp
+)
 
-set(CATCH_DIRECTORY catch2)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${CATCH_DIRECTORY})
-
-#check for CMakeLists.txt files in subdirectory source (where your applications are)
-add_subdirectory(source)
+# Coin-flip program
+add_executable(flip_coin
+  source/flip_coin.cpp    # ← this path must exactly match your file
+)
