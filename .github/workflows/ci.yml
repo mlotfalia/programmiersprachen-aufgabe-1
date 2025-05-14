@@ -22,27 +22,26 @@ jobs:
         with:
           # avoid CRLF issues on Windows
           persist-credentials: false
+
       - name: Disable CRLF conversion (Windows)
         if: runner.os == 'Windows'
         run: git config --global core.autocrlf false
 
-      # Configure CMake
       - name: Configure CMake
         run: |
           cmake -B build -S . \
             -DCMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }} \
             $([[ "${{ runner.os }}" == "Windows" ]] && echo "-DCMAKE_TOOLCHAIN_FILE=$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake")
-      # Build
+
       - name: Build
         run: cmake --build build --config ${{ env.CMAKE_BUILD_TYPE }}
-      # Run tests
+
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
 
-      # Optional: upload test logs/artifacts
       - name: Upload CTest results
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # ← updated from v3 to v4
         with:
           name: ctest-log-${{ runner.os }}
           path: build/Testing/Temporary/LastTest.log
