@@ -1,29 +1,34 @@
-cmake_minimum_required(VERSION 3.10)
-project(programmiersprachen_aufgabe_1)
+cmake_minimum_required(VERSION 3.14)
+project(ProgrammiersprachenAufgabe1 LANGUAGES CXX)
 
-# Hello World program
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# ----------------------------------------------------------------------------
+# Hello World and flip_coin
 add_executable(helloworld
   source/helloworld.cpp
 )
 
-# Coin-flip program
 add_executable(flip_coin
-  source/flip_coin.cpp    # ← this path must exactly match your file
+  source/flip_coin.cpp
 )
-# 1.8) Implementing gcd with TDD
-cmake_minimum_required(VERSION 3.14)
-project(ProgrammiersprachenAufgabe1 LANGUAGES CXX)
 
-include(FetchContent)
-
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v3.4.0
+# ----------------------------------------------------------------------------
+# 1.8) gcd library
+add_library(gcd STATIC
+  source/gcd.cpp
 )
-FetchContent_MakeAvailable(Catch2)
+target_include_directories(gcd
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/source
+)
+
+# — Catch2 (single-header) —
+# point CMake at your external/catch2 folder
+include_directories(${CMAKE_SOURCE_DIR}/external/catch2)
+# ----------------------------------------------------------------------------
 
 enable_testing()
 
-add_subdirectory(source)
+# Now add our subdirectories
 add_subdirectory(tests)
