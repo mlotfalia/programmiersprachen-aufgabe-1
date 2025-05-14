@@ -33,7 +33,8 @@ jobs:
         run: cmake --build build --config ${{ env.CMAKE_BUILD_TYPE }}
 
       - name: Run tests
-        run: ctest --test-dir build --output-on-failure
+        # <-- note the added `-C` argument here
+        run: ctest --test-dir build -C ${{ env.CMAKE_BUILD_TYPE }} --output-on-failure
 
       - name: Upload CTest results
         if: failure()
