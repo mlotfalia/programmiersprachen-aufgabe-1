@@ -3,19 +3,21 @@
 # tests/CMakeLists.txt
 
 # point the test target at your catch include folder:
-add_executable(tests_gcd
+add_executable(tests_all
+  test_main.cpp 
   tests_gcd.cpp
+  tests_math.cpp
 )
-target_include_directories(tests_gcd
-  PRIVATE ${CMAKE_SOURCE_DIR}/external/catch2
-)
-
-target_link_libraries(tests_gcd
-  PRIVATE gcd           # your library
+target_include_directories(tests_all PRIVATE
+${CMAKE_SOURCE_DIR}/external/catch2
+${CMAKE_SOURCE_DIR}/source
 )
 
-target_compile_features(tests_gcd
-  PRIVATE cxx_std_17
+target_link_libraries(tests_all
+PRIVATE
+  core     
+  Catch2   # your library
 )
+enable_testing() 
 
-add_test(NAME gcd_tests COMMAND tests_gcd)
+add_test(NAME all_tests COMMAND tests_all)

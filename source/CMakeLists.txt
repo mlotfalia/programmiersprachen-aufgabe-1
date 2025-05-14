@@ -1,14 +1,12 @@
 # source/CMakeLists.txt
 
 # 1) Build the gcd static library from gcd.cpp
-add_library(gcd STATIC
-  gcd.cpp
+add_library(core STATIC
+    gcd.cpp
+    math.cpp
 )
-
 # Expose the include directory for any target that links to this library
-target_include_directories(gcd
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-)
+target_include_directories(core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # 2) Build the Hello World executable
 add_executable(helloworld

@@ -1,9 +1,7 @@
 // 1.8) Implementing gcd with TDD
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-
 #include "gcd.hpp" // <-- pulls in the real declaration
-
+// 1.8) Implementing gcd with TDD
 TEST_CASE("describe_gcd", "[gcd]")
 {
     REQUIRE(gcd(2, 4) == 2);
