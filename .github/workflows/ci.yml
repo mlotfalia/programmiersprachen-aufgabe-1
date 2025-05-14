@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  BUILD_DIR: build
+  BUILD_TYPE: Release # single source of truth
+
 jobs:
   build-test:
     strategy:
@@ -17,12 +21,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
+        run: |
+          cmake -S . -B ${{ env.BUILD_DIR }} \
+                -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+                -DCMAKE_CXX_STANDARD=20
 
       - name: Build
-        run: cmake --build build --config Release
+        # --config is harmless on single-config generators, required on MSVC/Xcode
+        run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }}
 
       - name: Run tests
         run: |
-          cd build
-          ctest --output-on-failure
+          cd ${{ env.BUILD_DIR }}
+          ctest --output-on-failure -C ${{ env.BUILD_TYPE }}

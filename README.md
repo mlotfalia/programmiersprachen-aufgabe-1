@@ -33,30 +33,10 @@ All code targets **C++20**.
 
 ---
 
-# Programmiersprachen – Assignment 1&nbsp; ![CI](https://github.com/mlotfalia/programmiersprachen-aufgabe-1/actions/workflows/ci.yml/badge.svg)
+# Programmiersprachen – Assignment 1&nbsp; ![CI](https://github.com/mlotfalia/programmiersprachen-aufgabe-1/workflows/ci.yml/badge.svg)
 
 _A first dive into modern C++: tool-chain, version control, basic syntax, and test-driven development._
 
 ## Repository Structure
 
-.
-├── CMakeLists.txt # top-level build script
-├── external/
-│ └── catch2/
-│ ├── catch.hpp # single-header Catch2
-│ └── CATCH2_LICENSE.txt
-│
-├── source/ # production code
-│ ├── flip_coin.cpp
-│ ├── gcd.cpp / gcd.hpp
-│ ├── math.cpp / math.hpp
-│ ├── helloworld.cpp
-│ └── CMakeLists.txt
-│
-├── tests/ # unit tests (Catch2)
-│ ├── test_main.cpp
-│ ├── tests_gcd.cpp
-│ ├── tests_math.cpp
-│ └── CMakeLists.txt
-│
-└── build/ # created by CMake (git-ignored)
+![Repository structure screenshot](docs/image.png)

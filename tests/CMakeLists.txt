@@ -1,23 +1,16 @@
-# // 1.8) Implementing gcd with TDD
-
 # tests/CMakeLists.txt
 
-# point the test target at your catch include folder:
-add_executable(tests_all
-  test_main.cpp 
-  tests_gcd.cpp
-  tests_math.cpp
-)
-target_include_directories(tests_all PRIVATE
-${CMAKE_SOURCE_DIR}/external/catch2
-${CMAKE_SOURCE_DIR}/source
+
+add_executable(tests
+    test_main.cpp
+    tests_gcd.cpp
+    tests_math.cpp
+
 )
 
-target_link_libraries(tests_all
-PRIVATE
-  core     
-  Catch2   # your library
-)
-enable_testing() 
 
-add_test(NAME all_tests COMMAND tests_all)
+target_link_libraries(tests PRIVATE core Catch2)
+add_test(NAME gcd_zero      COMMAND tests "[describe_gcd] and 0,0")
+add_test(NAME gcd_positive  COMMAND tests "[describe_gcd] and 6,9")
+# etc.
+

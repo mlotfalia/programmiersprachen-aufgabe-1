@@ -1,6 +1,6 @@
 // 1.8) Implementing gcd with TDD
 #include "catch.hpp"
-#include "gcd.hpp" // <-- pulls in the real declaration
+#include "gcd.hpp"
 // 1.8) Implementing gcd with TDD
 TEST_CASE("describe_gcd", "[gcd]")
 {
