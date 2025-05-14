@@ -6,31 +6,43 @@ on:
   pull_request:
     branches: [master]
 
-env:
-  BUILD_DIR: build
-  BUILD_TYPE: Release # single source of truth
-
 jobs:
   build-test:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        build_type: [Release]
+    env:
+      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout sources
+        uses: actions/checkout@v3
+        with:
+          # avoid CRLF issues on Windows
+          persist-credentials: false
+      - name: Disable CRLF conversion (Windows)
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
 
+      # Configure CMake
       - name: Configure CMake
         run: |
-          cmake -S . -B ${{ env.BUILD_DIR }} \
-                -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-                -DCMAKE_CXX_STANDARD=20
-
+          cmake -B build -S . \
+            -DCMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }} \
+            $([[ "${{ runner.os }}" == "Windows" ]] && echo "-DCMAKE_TOOLCHAIN_FILE=$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake")
+      # Build
       - name: Build
-        # --config is harmless on single-config generators, required on MSVC/Xcode
-        run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }}
-
+        run: cmake --build build --config ${{ env.CMAKE_BUILD_TYPE }}
+      # Run tests
       - name: Run tests
-        run: |
-          cd ${{ env.BUILD_DIR }}
-          ctest --output-on-failure -C ${{ env.BUILD_TYPE }}
+        run: ctest --test-dir build --output-on-failure
+
+      # Optional: upload test logs/artifacts
+      - name: Upload CTest results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ctest-log-${{ runner.os }}
+          path: build/Testing/Temporary/LastTest.log
