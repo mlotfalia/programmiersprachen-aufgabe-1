@@ -39,4 +39,24 @@ _A first dive into modern C++: tool-chain, version control, basic syntax, and te
 
 ## Repository Structure
 
-![Repository structure screenshot](docs/image.png)
+.
+├── CMakeLists.txt # top-level build script
+├── external/
+│ └── catch2/
+│ ├── catch.hpp # single-header Catch2
+│ └── CATCH2_LICENSE.txt
+│
+├── source/ # production code
+│ ├── flip_coin.cpp
+│ ├── gcd.cpp / gcd.hpp
+│ ├── math.cpp / math.hpp
+│ ├── helloworld.cpp
+│ └── CMakeLists.txt
+│
+├── tests/ # unit tests (Catch2)
+│ ├── test_main.cpp
+│ ├── tests_gcd.cpp
+│ ├── tests_math.cpp
+│ └── CMakeLists.txt
+│
+└── build/ # created by CMake (git-ignored)
